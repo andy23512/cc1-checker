@@ -1,8 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { KEY_ID_LAYOUT } from './models/key-id-layout.const';
 import { DirectionMap, FingerMap, Layout } from './models/layout.models';
-import { KEY_LIST } from './models/stub-key-map.const';
-import { KeyMapService } from './services/key-map.service';
+import { KEY_LIST, STUB_KEY_MAP } from './models/stub-key-map.const';
 
 function layoutMap<T, U>(layout: Layout<T>, func: (arg: T) => U): Layout<U> {
   const output: Layout<U> = {};
@@ -28,13 +27,22 @@ function layoutMap<T, U>(layout: Layout<T>, func: (arg: T) => U): Layout<U> {
 export class AppComponent {
   public positionCounts: Record<number, number> = {};
   public layout: Layout<number> = {};
-  constructor(private keyMapService: KeyMapService) {}
-  public start() {
-    this.keyMapService.setKeyMaps().subscribe(() => {});
-  }
 
-  public end() {
-    this.keyMapService.close();
+  public downloadTestingLayout() {
+    const fileContent = ['A1', 'A2', 'A3']
+      .map((layer) =>
+        Object.entries(STUB_KEY_MAP).map(([pos, actionId]) =>
+          [layer, pos, actionId].join(',')
+        )
+      )
+      .flat()
+      .join('\n');
+    const blob = new Blob([fileContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'cc1-checker-layout.csv');
+    a.click();
   }
 
   @HostListener('window:keydown', ['$event'])
