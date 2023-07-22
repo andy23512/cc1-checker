@@ -59,6 +59,10 @@ export class AppComponent {
     this.updateLayout();
   }
 
+  public resetChart() {
+    this.positionCounts = {};
+  }
+
   private updateLayout() {
     this.layout = layoutMap(KEY_ID_LAYOUT, (keyId) => {
       return this.positionCounts[keyId] || 0;
