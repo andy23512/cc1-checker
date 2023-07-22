@@ -22,7 +22,7 @@ export class SwitchComponent {
   @Input() public d: Partial<DirectionMap<number | null>> = {};
 
   public keyColor(key: number | null | undefined) {
-    return key ? '#43e272' : '#FF0000';
+    return key ? '#00FF00' : '#333333';
   }
 
   public sectorPath(d: number) {
