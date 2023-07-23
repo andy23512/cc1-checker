@@ -61,6 +61,7 @@ export class AppComponent {
 
   public resetChart() {
     this.positionCounts = {};
+    this.updateLayout();
   }
 
   private updateLayout() {
