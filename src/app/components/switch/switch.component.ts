@@ -1,3 +1,10 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DirectionMap } from '../../models/layout.models';
 
@@ -17,11 +24,20 @@ const r2 = 167;
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('keyAnimation', [
+      state('*', style({ opacity: 1 })),
+      transition(':increment', [
+        style({ opacity: 0 }),
+        animate('0.2s ease-out', style('*')),
+      ]),
+    ]),
+  ],
 })
-export class SwitchComponent {
-  @Input() public d: Partial<DirectionMap<number | null>> = {};
+export class SwitchComponent<T> {
+  @Input() public d: Partial<DirectionMap<T>> = {};
 
-  public keyColor(key: number | null | undefined) {
+  public keyColor(key: T | undefined) {
     return key ? '#00FF00' : '#333333';
   }
 

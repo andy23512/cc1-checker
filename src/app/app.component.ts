@@ -27,6 +27,7 @@ function layoutMap<T, U>(layout: Layout<T>, func: (arg: T) => U): Layout<U> {
 export class AppComponent {
   public positionCounts: Record<number, number> = {};
   public layout: Layout<number> = {};
+  public highlightedKeyList: number[] = [];
 
   public downloadTestingLayout() {
     const fileContent = ['A1', 'A2', 'A3']
@@ -65,8 +66,9 @@ export class AppComponent {
   }
 
   private updateLayout() {
-    this.layout = layoutMap(KEY_ID_LAYOUT, (keyId) => {
-      return this.positionCounts[keyId] || 0;
-    });
+    this.layout = layoutMap(
+      KEY_ID_LAYOUT,
+      (keyId) => this.positionCounts[keyId] || 0
+    );
   }
 }
